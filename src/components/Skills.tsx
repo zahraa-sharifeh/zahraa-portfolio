@@ -1,25 +1,5 @@
-import type { IconType } from 'react-icons'
 import { motion } from 'framer-motion'
-import { BiLogoPostgresql, BiLogoTypescript } from 'react-icons/bi'
-import { FaGitAlt, FaNodeJs, FaReact } from 'react-icons/fa'
-import { RiNextjsFill, RiTailwindCssFill } from 'react-icons/ri'
-import { SiExpress, SiGo, SiMongodb, SiSupabase } from 'react-icons/si'
-import { TbBrandReactNative } from 'react-icons/tb'
-
-const skills: { name: string; icon: IconType }[] = [
-  { name: 'React', icon: FaReact },
-  { name: 'TypeScript', icon: BiLogoTypescript },
-  { name: 'Node.js', icon: FaNodeJs },
-  { name: 'Express', icon: SiExpress },
-  { name: 'PostgreSQL', icon: BiLogoPostgresql },
-  { name: 'MongoDB', icon: SiMongodb },
-  { name: 'React Native', icon: TbBrandReactNative },
-  { name: 'Next.js', icon: RiNextjsFill },
-  { name: 'Supabase', icon: SiSupabase },
-  { name: 'Go', icon: SiGo },
-  { name: 'Tailwind', icon: RiTailwindCssFill },
-  { name: 'Git', icon: FaGitAlt },
-]
+import { skillGroups } from '../data/skills'
 
 export default function Skills() {
   return (
@@ -33,24 +13,41 @@ export default function Skills() {
       >
         My Skills
       </motion.h2>
+      <motion.p
+        className="mx-auto mt-4 max-w-2xl text-center text-sm leading-7 text-[#71717A] lg:text-base"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        viewport={{ once: true }}
+      >
+        Production stack I ship with, plus the agents and protocols I use to build faster without
+        skipping tenancy, auth, or money.
+      </motion.p>
 
-      <div className="mt-12 flex flex-wrap justify-center gap-5">
-        {skills.map((skill, index) => {
-          const Icon = skill.icon
-          return (
-            <motion.div
-              key={skill.name}
-              className="flex h-36 w-36 cursor-default flex-col items-center justify-center gap-4 rounded border-2 border-black bg-white transition-colors hover:bg-black hover:text-white lg:h-44 lg:w-44"
-              initial={{ opacity: 0, y: 8 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.04 }}
-              viewport={{ once: true }}
-            >
-              <Icon className="text-5xl lg:text-6xl" />
-              <p className="text-sm font-medium">{skill.name}</p>
-            </motion.div>
-          )
-        })}
+      <div className="mt-12 space-y-12">
+        {skillGroups.map((group, groupIndex) => (
+          <div key={group.title}>
+            <h3 className="text-center text-sm font-bold uppercase tracking-[0.2em]">{group.title}</h3>
+            <div className="mt-6 flex flex-wrap justify-center gap-5">
+              {group.skills.map((skill, skillIndex) => {
+                const Icon = skill.icon
+                return (
+                  <motion.div
+                    key={skill.name}
+                    className="flex h-32 w-32 cursor-default flex-col items-center justify-center gap-3 rounded border-2 border-black bg-white transition-colors hover:bg-black hover:text-white lg:h-40 lg:w-40"
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: groupIndex * 0.08 + skillIndex * 0.03 }}
+                    viewport={{ once: true }}
+                  >
+                    <Icon className="text-4xl lg:text-5xl" />
+                    <p className="px-2 text-center text-sm font-medium">{skill.name}</p>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )

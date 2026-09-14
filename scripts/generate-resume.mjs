@@ -111,7 +111,7 @@ para('HTML, CSS, JavaScript, Git; React + Node apps; team e-commerce; API work w
 
 h2('Skills')
 para(
-  'React, TypeScript, Node.js, Express, PostgreSQL, MongoDB, React Native / Expo, Next.js, Supabase (Auth, RLS), Go APIs and workers, Tailwind, Git. Production deploys on Vercel, Railway, Netlify, Supabase.',
+  'React, TypeScript, JavaScript, HTML/CSS, Next.js, Tailwind, React Native / Expo, Node.js, Express, Go, PostgreSQL, MongoDB, Supabase (Auth, RLS), JWT. Deploys on Vercel, Railway, Netlify. Git, GitHub, Postman, Vite. AI agents: Cursor, Claude, ChatGPT, GitHub Copilot, MCP.',
 )
 
 await mkdir(dirname(outPath), { recursive: true })

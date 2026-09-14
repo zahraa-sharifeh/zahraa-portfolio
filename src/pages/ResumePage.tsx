@@ -8,6 +8,7 @@ import { TbArrowLeft, TbLink, TbPrinter } from 'react-icons/tb'
 import { Link } from 'react-router-dom'
 import ResumeButton from '../components/ResumeButton'
 import { projects } from '../data/projects'
+import { resumeSkills } from '../data/skills'
 import { site } from '../data/site'
 
 function displayUrl(url: string) {
@@ -179,11 +180,7 @@ export default function ResumePage() {
 
           <section className="mt-8">
             <h2 className="text-sm font-bold uppercase tracking-[0.2em]">Skills</h2>
-            <p className="mt-3 text-sm leading-6">
-              React, TypeScript, Node.js, Express, PostgreSQL, MongoDB, React Native / Expo, Next.js,
-              Supabase (Auth, RLS), Go APIs and workers, Tailwind, Git. Production deploys on Vercel,
-              Railway, Netlify, Supabase.
-            </p>
+            <p className="mt-3 text-sm leading-6">{resumeSkills}</p>
           </section>
         </article>
       </div>
