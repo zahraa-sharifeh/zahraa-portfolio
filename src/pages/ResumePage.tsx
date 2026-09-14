@@ -1,9 +1,69 @@
-import { TbArrowLeft, TbPrinter } from 'react-icons/tb'
+import type { ReactNode } from 'react'
+import { BiLogoGmail } from 'react-icons/bi'
+import { BsGithub } from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi'
+import { IoLogoLinkedin } from 'react-icons/io5'
+import type { IconType } from 'react-icons'
+import { TbArrowLeft, TbLink, TbPrinter } from 'react-icons/tb'
 import { Link } from 'react-router-dom'
 import ResumeButton from '../components/ResumeButton'
 import { projects } from '../data/projects'
 import { site } from '../data/site'
+
+function displayUrl(url: string) {
+  return url.replace(/^https?:\/\//, '').replace(/\/$/, '')
+}
+
+function linkAttrs(href: string) {
+  const external = href.startsWith('http')
+  return {
+    href,
+    target: external ? '_blank' : undefined,
+    rel: external ? 'noreferrer' : undefined,
+  }
+}
+
+function ContactLink({
+  href,
+  icon: Icon,
+  children,
+}: {
+  href: string
+  icon: IconType
+  children: ReactNode
+}) {
+  return (
+    <li>
+      <a
+        {...linkAttrs(href)}
+        className="group flex items-center gap-2.5 rounded-sm px-1 py-1 text-sm text-[#3BB8D4] transition-colors hover:bg-[#3BB8D4]/10 hover:text-[#1F8FA8]"
+      >
+        <span className="flex size-7 shrink-0 items-center justify-center border-2 border-black bg-white text-black transition-colors group-hover:bg-[#3BB8D4]">
+          <Icon className="text-sm" aria-hidden />
+        </span>
+        <span className="break-all underline decoration-[#3BB8D4]/40 underline-offset-[3px]">
+          {children}
+        </span>
+      </a>
+    </li>
+  )
+}
+
+function ProjectLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <li>
+      <a
+        {...linkAttrs(href)}
+        className="flex items-center gap-2 py-0.5 text-sm text-[#3BB8D4] hover:text-[#1F8FA8]"
+      >
+        <TbLink className="shrink-0 text-base" aria-hidden />
+        <span className="break-all underline decoration-[#3BB8D4]/40 underline-offset-[3px]">
+          {children}
+        </span>
+      </a>
+    </li>
+  )
+}
 
 export default function ResumePage() {
   return (
@@ -45,17 +105,25 @@ export default function ResumePage() {
 
         <article className="resume-paper border-2 border-black bg-white p-6 shadow-[8px_8px_0_0_#000] sm:p-10 lg:p-12">
           <header className="border-b-2 border-black pb-6">
-            <h1 className="text-4xl font-semibold">{site.name}</h1>
-            <p className="mt-2 text-lg">
-              {site.title} · {site.location}
-            </p>
-            <p className="mt-3 text-sm">
-              <a href={`mailto:${site.email}`}>{site.email}</a>
-              {' · '}
-              <a href={site.linkedin}>linkedin.com/in/zahraa-sharifeh</a>
-              {' · '}
-              <a href={site.github}>github.com/zahraa-sharifeh</a>
-            </p>
+            <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between sm:gap-8">
+              <div>
+                <h1 className="text-4xl font-semibold">{site.name}</h1>
+                <p className="mt-2 text-lg">
+                  {site.title} · {site.location}
+                </p>
+              </div>
+              <ul className="-mx-1 flex min-w-0 flex-col">
+                <ContactLink href={`mailto:${site.email}`} icon={BiLogoGmail}>
+                  {site.email}
+                </ContactLink>
+                <ContactLink href={site.linkedin} icon={IoLogoLinkedin}>
+                  linkedin.com/in/zahraa-sharifeh-2a7614276
+                </ContactLink>
+                <ContactLink href={site.github} icon={BsGithub}>
+                  github.com/zahraa-sharifeh
+                </ContactLink>
+              </ul>
+            </div>
           </header>
 
           <section className="mt-8">
@@ -71,17 +139,21 @@ export default function ResumePage() {
           <section className="mt-8">
             <h2 className="text-sm font-bold uppercase tracking-[0.2em]">Selected work</h2>
             {projects.map((project) => (
-              <div key={project.id} className="mt-5">
-                <h3 className="font-semibold">
-                  {project.title}
-                  {project.liveUrl && (
-                    <span className="font-normal text-zinc-500">
-                      {' '}
-                      — {project.liveUrl.replace(/^https?:\/\//, '')}
-                    </span>
-                  )}
-                </h3>
-                <p className="mt-1 text-sm leading-6">{project.summary}</p>
+              <div key={project.id} className="mt-5 border-l-2 border-black pl-4">
+                <h3 className="font-semibold">{project.title}</h3>
+                {(project.liveUrl || project.extraLinks?.length) && (
+                  <ul className="mt-1.5">
+                    {project.liveUrl && (
+                      <ProjectLink href={project.liveUrl}>{displayUrl(project.liveUrl)}</ProjectLink>
+                    )}
+                    {project.extraLinks?.map((link) => (
+                      <ProjectLink key={link.href} href={link.href}>
+                        {displayUrl(link.href)}
+                      </ProjectLink>
+                    ))}
+                  </ul>
+                )}
+                <p className="mt-2 text-sm leading-6 text-zinc-700">{project.summary}</p>
               </div>
             ))}
           </section>

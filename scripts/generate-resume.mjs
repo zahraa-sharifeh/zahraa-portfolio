@@ -63,14 +63,16 @@ const item = (title, body) => {
 h1('Zahraa Sharifeh')
 page.drawText('Full-Stack Engineer  ·  Beirut', { x: left, y, size: 12, font, color: gray })
 y -= 16
-page.drawText('zahraasharifeh2003@gmail.com  ·  linkedin.com/in/zahraa-sharifeh  ·  github.com/zahraa-sharifeh', {
-  x: left,
-  y,
-  size: 9,
+for (const line of wrap(
+  'zahraasharifeh2003@gmail.com  ·  linkedin.com/in/zahraa-sharifeh-2a7614276  ·  github.com/zahraa-sharifeh',
   font,
-  color: gray,
-})
-y -= 8
+  9,
+  width,
+)) {
+  page.drawText(line, { x: left, y, size: 9, font, color: gray })
+  y -= 12
+}
+y -= 4
 
 h2('Summary')
 para(
